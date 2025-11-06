@@ -1,6 +1,6 @@
 - name: Deploy webpage container
   hosts: all
-  becomee: yes
+  become: yes
 
 
   tasks:
