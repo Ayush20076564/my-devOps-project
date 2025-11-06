@@ -63,7 +63,7 @@ jobs:
       - name: "Run Ansible Playbook to Deploy"
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: "ansible/deploy.yml"
+          playbook: ansible/deploy.yml
           inventory: |
             [all]
             ${{ secrets.EC2_HOST }} ansible_user=${{ secrets.EC2_USER }}
