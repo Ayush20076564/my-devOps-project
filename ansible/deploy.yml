@@ -1,0 +1,40 @@
+- name: Deploy webpage container
+  hosts: all
+  becomee: yes
+
+
+  tasks:
+    - name: stop old container if running
+      shell: docker stop my-devops-project || true
+
+
+    - name: remove old container if exists
+      shell: docker rm my-devops-project || true
+
+
+    - name: load docker image from tar file
+      shell: docker load -i /home/ubuntu/my-devops-project.tar
+
+
+    - name: run new container
+      shell: docker run -d -p 80:80 --name my-devops-project my-devops-project:latest
+
+
+    - name: Clean up unused Docker resources
+      shell: docker system prune -f
+
+    - name: Verify container is running
+      shell: "docker ps --filter 'name=my-devops-project' -format 'Container: {{ '{{' }}.Names{{ '}}' }} | Status: {{ '{{' }}.Status{{ '}}' }}'"
+      register: container_status
+
+    - name: Display container status
+      debug:
+        msg: "{{ container_status.stdout }}"
+
+    - name: name: Verify that website responds on port 80
+      shell: curl -I http://localhost:80 || true
+      register: http_response
+
+    - name: Print HTTP response headers
+      debug:
+        msg: "{{ http_response.stdout_lines }}"
