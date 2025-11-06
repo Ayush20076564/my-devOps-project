@@ -33,7 +33,7 @@ jobs:
             name: my-devops-project-image
             path: my-devops-project.tar
 
-            
+
   deploy:
     name: "Deploy to EC2 Using Ansible"
     runs-on: ubuntu-latest
@@ -62,7 +62,7 @@ jobs:
           overwrite: true
 
       - name: "Run Ansible Playbook to Deploy"
-        uses: dawidd6/action-ansible-playbook@v2.1.5
+        uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: "ansible/deploy.yml"
           inventory: |
