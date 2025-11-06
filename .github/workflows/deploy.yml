@@ -35,7 +35,7 @@ jobs:
 
 
 
-deploy:
+ deploy:
     name: "Deploy to EC2 Using Ansible"
     runs-on: ubuntu-latest
     needs: build
