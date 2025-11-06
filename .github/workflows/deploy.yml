@@ -1,0 +1,80 @@
+name: "Build and Deploy my-devOps-Project"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: "Build Docker Image"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "Build Docker Image"
+        run: |
+            echo "Building Docker image..."
+            docker build --no-cache -t my-devops-project:latest -f docker/Dockerfile ./docker
+            echo "Docker image built successfully."
+
+      - name: "save image as tar"
+        run: |
+            docker save my-devops-project:latest -o my-devops-project.tar
+            chmod 777 my-devops-project.tar
+            ls -lh my-devops-project.tar
+            echo "Docker image saved as tar file."
+            
+      - name: "Upload Docker Image Artifact"
+        uses: actions/upload-artifact@v4
+        with:
+            name: my-devops-project-image
+            path: my-devops-project.tar
+
+
+
+deploy:
+    name: "Deploy to EC2 Using Ansible"
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: "Download Docker Image Artifact"
+        uses: actions/download-artifact@v4
+        with:
+          name: my-devops-project-image
+          path: .
+
+        
+      - name: "Copy tar to ec2"
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_SSH_PORT }}
+          source: "my-devops-project.tar"
+          target: "home/ubuntu/"
+          overwrite: true
+
+      - name: "Run Ansible Playbook to Deploy"
+        uses: dawidd6/action-ansible-playbook@v2.1.5
+        with:
+          playbook: "ansible/deploy.yml"
+          inventory: |
+            [all]
+            ${{ secrets.EC2_HOST }} ansible_user=${{ secrets.EC2_USER }}
+            key: ${{ secrets.EC2_SSH_KEY }}
+
+
+      - name: "Deployment Completed Summary"
+        run: |
+            echo "Application deployed successfully to EC2 instance."
+            echo "Deployment Completed Successfully!"
+
+          
