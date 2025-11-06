@@ -1,5 +1,5 @@
 provider "aws" {
-    region = "eu-north-1"
+    region = "us-east-1"
 }
 
 resource "aws_security_group" "myapp_sg" {
@@ -25,15 +25,15 @@ resource "aws_security_group" "myapp_sg" {
 
     egress {
     from_port   = 0
-    to_port     = "-1"
-    protocol    = "tcp"
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
     }
 
 }
 
 resource "aws_instance" "my_webpage" {
-    ami            = "ami-"
+    ami            = "ami-0fc5d935ebf8bc3bc"
     instance_type  = "t3.micro"
     key_name       = "devops-key"
     vpc_security_group_ids = [aws_security_group.myapp_sg.id]
