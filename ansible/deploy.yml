@@ -31,7 +31,7 @@
       debug:
         msg: "{{ container_status.stdout }}"
 
-    - name: name: Verify that website responds on port 80
+    - name: Verify that website responds on port 80
       shell: curl -I http://localhost:80 || true
       register: http_response
 
