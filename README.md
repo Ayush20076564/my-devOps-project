@@ -6,6 +6,9 @@ This project implements a fully automated DevOps pipeline to deploy a static web
 It uses Terraform for infrastructure provisioning, Docker for containerization, 
 GitHub Actions for CI/CD automation, and Ansible for configuration management and deployment.
 
+## Workflow Diagram
+![DevOps Pipeline Flow](https://github.com/Ayush20076564/my-devOps-project/blob/main/FLow.png)
+
 ## Features
 - Automated provisioning of cloud infrastructure using Infrastructure as Code (IaC) with Terraform
 - Containerization of application using Docker, ensuring consistency across environments
