@@ -49,7 +49,7 @@ After pushing changes to the main branch, the GitHub Actions workflow will:
 
 Access the deployed website using the public IP of the EC2 instance:
 
-http://<EC2-Public-IP>
+- http://<EC2-Public-IP>
 
 ## Troubleshooting
 
@@ -70,5 +70,5 @@ This project is licensed under the MIT License.
 
 Ayush Sharma - [20076564@mydbs.ie](mailto:20076564@mydbs.ie)
 
-Project Link: [https://github.com/YourUsername/your-repo-name](https://github.com/Ayush20076564/my-devOps-project)
+Project Link: [https://github.com/Ayush20076564/my-devOps-project](https://github.com/Ayush20076564/my-devOps-project)
 
